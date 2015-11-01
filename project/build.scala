@@ -30,7 +30,10 @@ object LaundryapiBuild extends Build {
         "org.eclipse.jetty" % "jetty-webapp" % "9.2.10.v20150310" % "container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided",
         "org.scalatra" %% "scalatra-swagger"  % "2.4.0.RC1",
-        "org.jsoup" % "jsoup" % "1.8.3" from "http://jsoup.org/packages/jsoup-1.8.3.jar"
+        "org.jsoup" % "jsoup" % "1.8.3" from "http://jsoup.org/packages/jsoup-1.8.3.jar",
+        "org.json4s" % "json4s-native_2.11" % "3.3.0",
+        "org.json4s" % "json4s-jackson_2.11" % "3.3.0",
+        "com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.6.3"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
         Seq(

@@ -1,5 +1,6 @@
-import java.io.IOException;
+package com.aoi.laundryapi;
 
+import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 

@@ -1,3 +1,4 @@
+package com.aoi.laundryapi;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,7 +18,7 @@ public class Hall extends Utils{
 	private int totalNumWashingMachines;
 	private int totalNumDryers;
 	private int availableNumDryers;
-	
+
 	public Hall(){
 		floorNumber = -1;
 		hallName = "";
@@ -25,7 +26,7 @@ public class Hall extends Utils{
 		url = "";
 		washingMachines = new ArrayList<WashingMachine>();
 		dryers = new ArrayList<Dryer>();
-		
+
 	}
 
 	@Override
@@ -93,23 +94,22 @@ public class Hall extends Utils{
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
+
 	public void scrapeHallStatus(){
 		Document doc = download(url);
 		Elements dryers = doc.select("#dryer span");
 		Elements washingMachines = doc.select("#washer span");
-		
+
 		Pattern availablePattern  = Pattern.compile("([0-9]+)\\s*of\\s*([0-9]+)");
 		Matcher matchedAvailability = availablePattern.matcher(dryers.text());
 		matchedAvailability.find();
 		if (matchedAvailability.groupCount() >= 2){
 			int currentAvailable = Integer.parseInt(matchedAvailability.group(1));
 			int total = Integer.parseInt(matchedAvailability.group(2));
-//			System.out.println(currentAvailable + " / " + total);
 			totalNumDryers = total;
 			availableNumDryers = currentAvailable;
 		}
-		
+
 		matchedAvailability = availablePattern.matcher(washingMachines.text());
 		matchedAvailability.find();
 		if (matchedAvailability.groupCount() >= 2){
@@ -119,26 +119,24 @@ public class Hall extends Utils{
 			totalNumWashingMachines = total;
 			availableNumWashingMachines = currentAvailable;
 		}
-		
-		
 	}
-	
+
 	public void scrapeWashingMachines(){
 		Document doc = download(url);
 		Elements rawWashingMachineList = doc.select("li:has(img[src*=\"washer\"])");
-		
+
 		for (Element dryer : rawWashingMachineList){
 			WashingMachine wm = new WashingMachine();
 			String [] statusSplit = dryer.select("a").text().split("\\s");
-			
+
 			if (statusSplit.length >= 2){
 				String name = statusSplit[0];
 				String status = statusSplit[1].toLowerCase();
-				
+
 				wm.setName(name);
 				wm.setRawStatus(status);
 				wm.setAvailable(false);
-				
+
 				if (status.contains("avail")){
 					wm.setAvailable(true);
 					wm.setNumMinutesLeft(-1);
@@ -146,34 +144,34 @@ public class Hall extends Utils{
 					try{
 						wm.setNumMinutesLeft(Integer.parseInt(status));
 					}catch(NumberFormatException e){
-						
+
 					}
 					wm.setAvailable(false);
-					
+
 				}
 			}
-			
+
 			washingMachines.add(wm);
 		}
-	
+
 	}
-	
+
 	public void scrapeDryers(){
 		Document doc = download(url);
 		Elements rawDryerList = doc.select("li:has(img[src*=\"dryer\"])");
-		
+
 		for (Element dryer : rawDryerList){
 			Dryer dr = new Dryer();
 			String [] statusSplit = dryer.select("a").text().split("\\s");
-			
+
 			if (statusSplit.length >= 2){
 				String name = statusSplit[0];
 				String status = statusSplit[1].toLowerCase();
-				
+
 				dr.setName(name);
 				dr.setRawStatus(status);
 				dr.setAvailable(false);
-				
+
 				if (status.contains("avail")){
 					dr.setAvailable(true);
 					dr.setNumMinutesLeft(-1);
@@ -181,17 +179,17 @@ public class Hall extends Utils{
 					try{
 						dr.setNumMinutesLeft(Integer.parseInt(status));
 					}catch(NumberFormatException e){
-						
+
 					}
 					dr.setAvailable(false);
-					
+
 				}
 			}
-			
+
 			dryers.add(dr);
 		}
-	
+
 	}
-	
-	
+
+
 }

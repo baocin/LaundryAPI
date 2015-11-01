@@ -1,6 +1,7 @@
+package com.aoi.laundryapi;
 
 public class LaundryMachine {
-	
+
 	private String name;
 	private int numMinutesLeft;
 	private boolean available;
@@ -12,7 +13,7 @@ public class LaundryMachine {
 	public void setRawStatus(String status) {
 		this.rawStatus = status;
 	}
-	
+
 	public LaundryMachine(){
 		this.name = "";
 		this.numMinutesLeft = -1;
@@ -47,6 +48,6 @@ public class LaundryMachine {
 		return "LaundryMachine [name=" + name + ", numMinutesLeft=" + numMinutesLeft + ", available=" + available
 				+ ", status=" + rawStatus + "]";
 	}
-	
-	
+
+
 }
