@@ -33,7 +33,10 @@ object LaundryapiBuild extends Build {
         "org.jsoup" % "jsoup" % "1.8.3" from "http://jsoup.org/packages/jsoup-1.8.3.jar",
         "org.json4s" % "json4s-native_2.11" % "3.3.0",
         "org.json4s" % "json4s-jackson_2.11" % "3.3.0",
-        "com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.6.3"
+        "com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.6.3",
+        "com.fasterxml.jackson.core" % "jackson-annotations" % "2.6.3",
+        "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.3",
+        "com.fasterxml.jackson.core" % "jackson-core" % "2.6.3"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
         Seq(

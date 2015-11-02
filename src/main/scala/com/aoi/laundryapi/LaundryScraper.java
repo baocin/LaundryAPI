@@ -15,7 +15,7 @@ public class LaundryScraper extends Utils {
 	public ArrayList<Hall> halls = new ArrayList<Hall>();
 	public String baseURL = "http://m.laundryview.com/";
 
-	public void scrape() {
+	public ArrayList<Hall> scrape() {
 		Document doc = Utils.download("http://m.laundryview.com/uncc");
 
 		Elements hallLinks = doc.select("#rooms li a");
@@ -45,6 +45,7 @@ public class LaundryScraper extends Utils {
 		}
 
 		scrapeHalls();
+		return halls;
 	}
 
 	public void scrapeHalls(){
