@@ -133,7 +133,7 @@ public class Hall extends Utils{
 				String name = statusSplit[0];
 				String status = statusSplit[1].toLowerCase();
 
-				wm.setName(name);
+				wm.setName(name.trim());
 				wm.setRawStatus(status);
 				wm.setAvailable(false);
 
@@ -168,7 +168,7 @@ public class Hall extends Utils{
 				String name = statusSplit[0];
 				String status = statusSplit[1].toLowerCase();
 
-				dr.setName(name);
+				dr.setName(name.trim());
 				dr.setRawStatus(status);
 				dr.setAvailable(false);
 

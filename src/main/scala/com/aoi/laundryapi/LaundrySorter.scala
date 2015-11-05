@@ -35,5 +35,43 @@ class LaundrySorter {
     }
     return null;
   }
+  def getDryerStatus (hallName : String, floorNum : String, machineName : String) : LaundryMachine = {
+    var floor = getFloor(hallName, floorNum);
+    var it = floor.getDryers.iterator();
+    while (it.hasNext()){
+      var machine = it.next();
+      if (machine.getName == machineName){
+        return machine;
+      }
+    }
+    return null;
+  }
+  def getWasherStatus (hallName : String, floorNum : String, machineName : String) : LaundryMachine = {
+    var floor = getFloor(hallName, floorNum);
+    var it = floor.getWashingMachines.iterator();
+    while (it.hasNext()){
+      var machine = it.next();
+      if (machine.getName == machineName){
+        return machine;
+      }
+    }
+    return null;
+  }
+  
+  def getDryers (hallName : String, floorNum : String) : ArrayList[Dryer] = {
+    var floor = getFloor(hallName, floorNum);
+    return floor.getDryers;
+  }
+  def getWashers (hallName : String, floorNum : String) : ArrayList[WashingMachine] = {
+    var floor = getFloor(hallName, floorNum);
+    return floor.getWashingMachines;
+  }
+//  def getMachineStatus (hallName : String, floorNum : String, machineName : String) : LaundryMachine = {
+//    var floor = getFloor(hallName, floorNum);
+//    var it = floor.getWashingMachines
+//    for (Hall h : floor){
+//      print(h);
+//    }
+//  }
 //  def machineStatus(name : String, floorNum
 }

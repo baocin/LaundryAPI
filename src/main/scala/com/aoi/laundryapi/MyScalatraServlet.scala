@@ -16,15 +16,8 @@ class MyScalatraServlet extends LaundryapiStack {
   
   var find : LaundrySorter = new LaundrySorter(halls);
   
-  
-  
   get("/") {
-    <html>
-      <body>
-        <h1>Laundry API for UNC Charlotte</h1>
-        This api allows anyone to get up to date information about any laundry room on the UNC Charlotte campus!
-      </body>
-    </html>
+    convertToJson(halls)
   }
   get("/api/all") {
     convertToJson(halls)
@@ -34,6 +27,24 @@ class MyScalatraServlet extends LaundryapiStack {
   }
   get("/api/hall/:hallName/:floor"){
     convertToJson(find.getFloor({params("hallName")}, {params("floor")}))
+  }
+  get("/api/hall/:hallName/dryers/?"){
+    convertToJson(find.getDryers({params("hallName")}, {params("floor")}));
+  }
+  get("/api/hall/:hallName/washers/?"){
+    convertToJson(find.getWashers({params("hallName")}, {params("floor")}));
+  }
+  get("/api/hall/:hallName/:floor/dryers/?"){
+    convertToJson(find.getDryers({params("hallName")}, {params("floor")}));
+  }
+  get("/api/hall/:hallName/:floor/washers/?"){
+    convertToJson(find.getWashers({params("hallName")}, {params("floor")}));
+  }
+  get("/api/hall/:hallName/:floor/dryers/:dryerName"){
+    convertToJson(find.getDryerStatus({params("hallName")}, {params("floor")}, {params("dryerName")}));
+  }
+  get("/api/hall/:hallName/:floor/washers/:washerName"){
+    convertToJson(find.getDryerStatus({params("hallName")}, {params("floor")}, {params("washerName")}));
   }
   def convertToJson[T](obj : T) : String = {
     var obm = new ObjectMapper();

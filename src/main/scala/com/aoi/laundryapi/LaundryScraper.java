@@ -3,6 +3,7 @@ package com.aoi.laundryapi;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,12 +26,25 @@ public class LaundryScraper extends Utils {
 		for (Element hallLink : hallLinks){
 			String rawName = hallLink.text();
 			String [] splitName = rawName.split(" - ");
-			System.out.println("Processing " + rawName);
+//			System.out.println("Processing " + rawName);
 			String hallName = splitName[0];
 
 			int floorNumber = -1;
 			if (splitName.length >= 2){
-				floorNumber = (int)(splitName[1].charAt(0)) - 48;
+				Scanner inName = new Scanner(rawName);
+				System.out.print(rawName);
+				Pattern locationPattern = Pattern.compile("([0-9])");
+				Matcher matches = locationPattern.matcher(rawName);
+				//make lynch halls have a room field since they are the only ones that list the exact room number
+//				if (rawName.contains("RM")){
+//					
+//
+//				}
+				
+				if (matches.find() && matches.groupCount() >= 1){
+					floorNumber = Integer.parseInt(matches.group(1));
+				}
+				System.out.println( "   " + floorNumber);
 			}
 
 			String url = hallLink.attr("href");
@@ -50,7 +64,7 @@ public class LaundryScraper extends Utils {
 
 	public void scrapeHalls(){
 		for (Hall hall: halls){
-			System.out.println("Getting " + hall.getHallName() + "(" +  hall.getFloorNumber() + ")");
+//			System.out.println("Getting " + hall.getHallName() + "(" +  hall.getFloorNumber() + ")");
 			//http://m.laundryview.com/submitFunctions.php?monitor=true&lr=3268853&cell=null&_=1441953680236
 			String hallURL = baseURL + "submitFunctions.php?monitor=true&lr=" + hall.getId();
 			hall.setUrl(hallURL);
@@ -58,7 +72,7 @@ public class LaundryScraper extends Utils {
 			hall.scrapeDryers();
 			hall.scrapeWashingMachines();
 		}
-		System.out.println(halls);
+//		System.out.println(halls);
 
 	}
 
