@@ -36,7 +36,9 @@ object LaundryapiBuild extends Build {
         "com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.6.3",
         "com.fasterxml.jackson.core" % "jackson-annotations" % "2.6.3",
         "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.3",
-        "com.fasterxml.jackson.core" % "jackson-core" % "2.6.3"
+        "com.fasterxml.jackson.core" % "jackson-core" % "2.6.3",
+        "com.typesafe.slick" %% "slick" % "3.1.0",
+        "org.slf4j" % "slf4j-nop" % "1.6.4"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
         Seq(

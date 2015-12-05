@@ -9,18 +9,32 @@ import com.fasterxml.jackson._
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import java.io.StringWriter
+import java.util.Timer
+import java.util.TimerTask
 
 class MyScalatraServlet extends LaundryapiStack {
   var ls = new LaundryScraper();
-  var halls = ls.scrape();
-  
-  var find : LaundrySorter = new LaundrySorter(halls);
-  
-  get("/") {
-    convertToJson(halls)
+  var find : LaundrySorter = new LaundrySorter(ls.halls);;
+  var updateCount = 0;
+  var numMinutes = 2;
+
+  //Setup a timer to execute the scape command every 10 seconds
+  val t = new java.util.Timer()
+  val task = new java.util.TimerTask {
+    def run() = {
+      ls.scrape()
+      find = new LaundrySorter(ls.halls);
+      updateCount += 1;
+      println("Update Count: " + updateCount);
+    }
   }
-  get("/api/all") {
-    convertToJson(halls)
+  t.schedule(task, 0, numMinutes*60000L)
+
+  get("/") {
+    convertToJson(ls.halls)
+  }
+  get("/api/halls") {
+    convertToJson(ls.halls)
   }
   get("/api/hall/:hallName/?"){
     convertToJson(find.getHalls({params("hallName")}))
@@ -46,6 +60,7 @@ class MyScalatraServlet extends LaundryapiStack {
   get("/api/hall/:hallName/:floor/washers/:washerName"){
     convertToJson(find.getDryerStatus({params("hallName")}, {params("floor")}, {params("washerName")}));
   }
+
   def convertToJson[T](obj : T) : String = {
     var obm = new ObjectMapper();
     obm.configure(SerializationFeature.INDENT_OUTPUT, true);

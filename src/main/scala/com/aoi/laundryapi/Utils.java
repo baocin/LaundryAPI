@@ -9,9 +9,14 @@ public class Utils {
 		Document doc = null;
 		try {
 			doc = Jsoup.connect(url)
-					.userAgent("Mozilla")
-					.timeout(3000)
+					.userAgent("Googlebot/2.1 (+http://www.google.com/bot.html)")
+					.timeout(60*1000)		//10s
 					.post();
+	  } catch (java.net.SocketTimeoutException e){
+			//Log!
+			// System.out.println("Timeout Error!!");
+
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

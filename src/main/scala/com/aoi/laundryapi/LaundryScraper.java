@@ -18,39 +18,30 @@ public class LaundryScraper extends Utils {
 
 	public ArrayList<Hall> scrape() {
 		Document doc = Utils.download("http://m.laundryview.com/uncc");
-
+		ArrayList<Hall> tempHalls = new ArrayList<Hall>();		//store the new scrape in temporary arraylist so when switching the data is always whole
 		Elements hallLinks = doc.select("#rooms li a");
-		System.out.println("Found " + hallLinks.size() + " hall Links");
 		Pattern floorNumRegex = Pattern.compile("([0-9])");
 
 		for (Element hallLink : hallLinks){
 			String rawName = hallLink.text();
 			String [] splitName = rawName.split(" - ");
-//			System.out.println("Processing " + rawName);
-			String hallName = splitName[0];
+			String hallName = splitName[0].trim();
 
 			int floorNumber = -1;
 			if (splitName.length >= 2){
 				Scanner inName = new Scanner(rawName);
-				System.out.print(rawName);
 				Pattern locationPattern = Pattern.compile("([0-9])");
 				Matcher matches = locationPattern.matcher(rawName);
-				//make lynch halls have a room field since they are the only ones that list the exact room number
-//				if (rawName.contains("RM")){
-//					
-//
-//				}
-				
+
 				if (matches.find() && matches.groupCount() >= 1){
 					floorNumber = Integer.parseInt(matches.group(1));
 				}
-				System.out.println( "   " + floorNumber);
 			}
 
 			String url = hallLink.attr("href");
 			Long id = Long.parseLong(hallLink.attr("id"));
 
-			halls.add(new Hall(
+			tempHalls.add(new Hall(
 				floorNumber,
 				hallName,
 				id,
@@ -58,12 +49,12 @@ public class LaundryScraper extends Utils {
 			));
 		}
 
-		scrapeHalls();
+		halls = scrapeHalls(tempHalls);
 		return halls;
 	}
 
-	public void scrapeHalls(){
-		for (Hall hall: halls){
+	public ArrayList<Hall> scrapeHalls(ArrayList<Hall> hallList){
+		for (Hall hall: hallList){
 //			System.out.println("Getting " + hall.getHallName() + "(" +  hall.getFloorNumber() + ")");
 			//http://m.laundryview.com/submitFunctions.php?monitor=true&lr=3268853&cell=null&_=1441953680236
 			String hallURL = baseURL + "submitFunctions.php?monitor=true&lr=" + hall.getId();
@@ -71,7 +62,10 @@ public class LaundryScraper extends Utils {
 			hall.scrapeHallStatus();
 			hall.scrapeDryers();
 			hall.scrapeWashingMachines();
+			System.out.print(hall.getHallName().split(" ")[0] + " ");
 		}
+		System.out.println();
+		return hallList;
 //		System.out.println(halls);
 
 	}
