@@ -14,16 +14,19 @@ import java.util.TimerTask
 
 class MyScalatraServlet extends LaundryapiStack {
   var ls = new LaundryScraper();
-  var find : LaundrySorter = new LaundrySorter(ls.halls);;
+  var find : LaundrySorter = new LaundrySorter(ls.halls);
   var updateCount = 0;
-  var numMinutes = 2;
-
+  var numMinutes = 3;
+  var groupedJson = "";
+  
   //Setup a timer to execute the scape command every 10 seconds
   val t = new java.util.Timer()
   val task = new java.util.TimerTask {
     def run() = {
       ls.scrape()
       find = new LaundrySorter(ls.halls);
+      Database.insert(ls.halls);
+      // groupedJson = find.groupByHall();
       updateCount += 1;
       println("Update Count: " + updateCount);
     }

@@ -66,6 +66,21 @@ class LaundrySorter {
     var floor = getFloor(hallName, floorNum);
     return floor.getWashingMachines;
   }
+
+  // def groupByHall () : String{
+  //   val it = halls.iterator();
+  //   var groupedHalls = new HashMap[String, Hashmap[String, ]]
+  //   // var newFormat = {"rooms" -> [Hall], "totalWashingMachinesAvailable" -> 0, "totalWashingMachines" -> 0}
+  //   // var groupedHalls = new ArrayList[newFormat];
+  //
+  //   for (hall <- halls)
+  //     println(hall)
+  //     // if (hall.getHallName.toLowerCase().contains(name.toLowerCase())){
+  //     //   matchingHalls.add(hall)
+  //     // }
+  //   }
+  //   newJson
+  // }
 //  def getMachineStatus (hallName : String, floorNum : String, machineName : String) : LaundryMachine = {
 //    var floor = getFloor(hallName, floorNum);
 //    var it = floor.getWashingMachines
