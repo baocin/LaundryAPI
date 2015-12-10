@@ -25,7 +25,7 @@ public class LaundryScraper extends Utils {
 		for (Element hallLink : hallLinks){
 			String rawName = hallLink.text();
 			String [] splitName = rawName.split(" - ");
-			String hallName = splitName[0].trim();
+			String hallName = splitName[0].trim().replaceAll(" HALL", "");
 
 			int floorNumber = -1;
 			if (splitName.length >= 2){

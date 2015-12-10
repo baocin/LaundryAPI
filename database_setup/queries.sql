@@ -1,0 +1,1 @@
+SELECT rooms.hall_name, rooms.floor_number, washer_room_map.washer_name, washer_room_map.time_left AS 'min_left', washer_room_map.raw_status AS 'status', washer_room_map.created_at AS 'created' FROM rooms JOIN washer_room_map ON rooms.room_id = washer_room_map.room_id;
