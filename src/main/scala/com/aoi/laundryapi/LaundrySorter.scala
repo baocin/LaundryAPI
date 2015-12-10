@@ -40,6 +40,7 @@ class LaundrySorter {
     var it = floor.getDryers.iterator();
     while (it.hasNext()){
       var machine = it.next();
+      println(machine.getName + " == " + machineName + "   " + (machine.getName == machineName))
       if (machine.getName == machineName){
         return machine;
       }

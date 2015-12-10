@@ -33,6 +33,9 @@ class MyScalatraServlet extends LaundryapiStack {
   }
   t.schedule(task, 0, numMinutes*60000L)
 
+  get("/today"){
+    // convertToJson(Database.getToday())
+  }
   get("/") {
     convertToJson(ls.halls)
   }
